@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { Booking } from "./booking.model";
+import { Injectable } from '@angular/core';
+import { Booking } from './booking.model';
 
 @Injectable({ providedIn: 'root'})
 export class BookingService {
@@ -14,6 +14,7 @@ export class BookingService {
     ];
 
     get bookings() {
+        // eslint-disable-next-line no-underscore-dangle
         return [...this._bookings];
     }
 }
