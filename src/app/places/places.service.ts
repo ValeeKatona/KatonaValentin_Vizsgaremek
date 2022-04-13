@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { take, map } from 'rxjs/operators';
+import { take, map, tap, delay } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
 import { Place } from './place.model';
 
@@ -78,9 +78,32 @@ export class PlacesService {
     this.authService.userId
     );
 
-    this.places.pipe(take(1)).subscribe(places => {
-    // eslint-disable-next-line no-underscore-dangle
-      this._places.next(places.concat(newPlace));
-    });
+    return this.places.pipe(take(1), delay(1000), tap(places => {
+        // eslint-disable-next-line no-underscore-dangle
+        this._places.next(places.concat(newPlace));
+    }));
+  }
+
+  updatePlace(placeId: string, title: string, description: string) {
+    return this.places.pipe(
+      take(1),
+      delay(1000),
+      tap(places => {
+      const updatedPlaceIndex = places.findIndex(pl => pl.id === placeId);
+      const updatedPlaces = [...places];
+      const oldPlace = updatedPlaces[updatedPlaceIndex];
+      updatedPlaces[updatedPlaceIndex] = new Place(
+        oldPlace.id,
+        title,
+        description,
+        oldPlace.imageUrl,
+        oldPlace.price,
+        oldPlace.availableFrom,
+        oldPlace.availableTo,
+        oldPlace.userId
+        );
+        // eslint-disable-next-line no-underscore-dangle
+        this._places.next(updatedPlaces);
+    }));
   }
 }
