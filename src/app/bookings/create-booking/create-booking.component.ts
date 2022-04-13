@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { NgForm } from '@angular/forms';
 
 import { Place } from '../../places/place.model';
+import { format, parseISO } from 'date-fns';
 
 @Component({
   selector: 'app-create-booking',
@@ -16,7 +17,13 @@ export class CreateBookingComponent implements OnInit {
   startDate: string;
   endDate: string;
 
-  constructor(private modalCtrl: ModalController) {}
+  showPicker = false;
+  dateValue = format(new Date(), 'yyyy-MM-dd') + 'T09:00:00.000Z';
+  formattedString = '';
+
+  constructor(private modalCtrl: ModalController) {
+    this.setToday();
+  }
 
   ngOnInit() {
     const availableFrom = new Date(this.selectedPlace.availableFrom);
@@ -67,5 +74,9 @@ export class CreateBookingComponent implements OnInit {
     const startDate = new Date(this.form.value['date-from']);
     const endDate = new Date(this.form.value['date-to']);
     return endDate > startDate;
+  }
+
+  setToday() {
+    this.formattedString = format(parseISO(format(new Date(), 'yyyy-MM-dd') + 'T09:00:00.000Z'), 'HH:mm, MMM d, yyyy');
   }
 }
