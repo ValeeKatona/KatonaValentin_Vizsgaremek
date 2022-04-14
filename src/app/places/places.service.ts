@@ -1,46 +1,25 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { take, map, tap, delay } from 'rxjs/operators';
+import { BehaviorSubject, of } from 'rxjs';
+import { take, map, tap, delay, switchMap } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
 import { Place } from './place.model';
 
+interface PlaceData {
+  availableFrom: string;
+  availableTo: string;
+  description: string;
+  imageUrl: string;
+  price: number;
+  title: string;
+  userId: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlacesService {
-  private _places =  new BehaviorSubject<Place[]>([
-    new Place(
-      'p1',
-      'Manhattan',
-      'In centre of New York.',
-      'https://www.otptravel.hu/userfiles/USA/NYC-csoportos/NYC-Manhattan-2.jpg',
-      149.99,
-      new Date('2022-01-01'),
-      new Date('2023-12-31'),
-      'abc'
-    ),
-    new Place(
-      'p2',
-      'California',
-      'Romantic place.',
-      'https://www.artnews.com/wp-content/uploads/2022/03/LA-sunrise-small.jpg?w=1000',
-      149.99,
-      new Date('2022-01-01'),
-      new Date('2023-12-31'),
-      'abc'
-    ),
-    new Place(
-      'p3',
-      'Paris',
-      'Beautiful city',
-      'https://images.adsttc.com/media/images/5d44/14fa/284d/d1fd/3a00/003d/large_jpg/eiffel-tower-in-paris-151-medium.jpg?1564742900',
-      99.99,
-      new Date('2022-01-01'),
-      new Date('2023-12-31'),
-      'abc'
-    )
-  ]);
+  private _places =  new BehaviorSubject<Place[]>([]);
 
   get places() {
     // eslint-disable-next-line no-underscore-dangle
@@ -48,8 +27,42 @@ export class PlacesService {
   }
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private http: HttpClient
+    ) { }
 
+    fetchPlaces() {
+       return this.http
+      .get<{[key: string]: PlaceData}>(
+        'https://accomondationapp-default-rtdb.europe-west1.firebasedatabase.app/offered-places.json')
+      .pipe(map(resData => {
+        const places = [];
+        for (const key in resData) {
+          if (resData.hasOwnProperty(key)) {
+            places.push(
+              new Place(
+              key,
+              resData[key].title,
+              resData[key].description,
+              resData[key].imageUrl,
+              resData[key].price,
+              new Date(resData[key].availableFrom),
+              new Date(resData[key].availableTo),
+              resData[key].userId
+            )
+          );
+        }
+      }
+      return places;
+      //return [];
+    }),
+    tap(places => {
+      // eslint-disable-next-line no-underscore-dangle
+      this._places.next(places);
+    })
+  );
+}
   getPlace(id: string) {
     return this.places.pipe(
       take(1),
@@ -67,6 +80,7 @@ export class PlacesService {
     dateFrom: Date,
     dateTo: Date
     ) {
+      let generatedId: string;
     const newPlace = new Place(
       Math.random().toString(),
     title,
@@ -77,33 +91,67 @@ export class PlacesService {
     dateTo,
     this.authService.userId
     );
-
-    return this.places.pipe(take(1), delay(1000), tap(places => {
+    return this.http
+    .post<{name: string}>('https://accomondationapp-default-rtdb.europe-west1.firebasedatabase.app/offered-places.json', {
+      ...newPlace,
+      id: null
+    })
+    .pipe(
+      switchMap(resData => {
+        generatedId = resData.name;
+        return this.places;
+      }),
+      take(1),
+      tap(places => {
+        newPlace.id = generatedId;
         // eslint-disable-next-line no-underscore-dangle
         this._places.next(places.concat(newPlace));
-    }));
+      })
+    );
+    // return this.places.pipe(
+    //   take(1),
+    //   delay(1000),
+    //   tap(places => {
+    //     // eslint-disable-next-line no-underscore-dangle
+    //     this._places.next(places.concat(newPlace));
+    //   })
+    // );
   }
 
   updatePlace(placeId: string, title: string, description: string) {
-    return this.places.pipe(
+    let updatedPlaces: Place[];
+     return this.places.pipe(
       take(1),
-      delay(1000),
-      tap(places => {
-      const updatedPlaceIndex = places.findIndex(pl => pl.id === placeId);
-      const updatedPlaces = [...places];
-      const oldPlace = updatedPlaces[updatedPlaceIndex];
-      updatedPlaces[updatedPlaceIndex] = new Place(
-        oldPlace.id,
-        title,
-        description,
-        oldPlace.imageUrl,
-        oldPlace.price,
-        oldPlace.availableFrom,
-        oldPlace.availableTo,
-        oldPlace.userId
-        );
-        // eslint-disable-next-line no-underscore-dangle
-        this._places.next(updatedPlaces);
-    }));
+      switchMap(places => {
+        if (!places || places.length <= 0) {
+          return this.fetchPlaces();
+        } else {
+          return of(places);
+        }
+      }),
+        switchMap(places => {
+          const updatedPlaceIndex = places.findIndex(pl => pl.id === placeId);
+        updatedPlaces = [...places];
+        const oldPlace = updatedPlaces[updatedPlaceIndex];
+        updatedPlaces[updatedPlaceIndex] = new Place(
+          oldPlace.id,
+          title,
+          description,
+          oldPlace.imageUrl,
+          oldPlace.price,
+          oldPlace.availableFrom,
+          oldPlace.availableTo,
+          oldPlace.userId
+          );
+          return this.http.put(
+            `https://accomondationapp-default-rtdb.europe-west1.firebasedatabase.app/offered-places/${placeId}.json`,
+            { ...updatedPlaces[updatedPlaceIndex], id: null }
+          );
+        }),
+        tap(() => {
+          // eslint-disable-next-line no-underscore-dangle
+          this._places.next(updatedPlaces);
+      })
+    );
   }
 }
