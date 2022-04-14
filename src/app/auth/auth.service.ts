@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class AuthService {
   private _userIsAuthenticated = true;
-  private _userId = 'xyz';
+  private _userId = 'abc';
 
   get userIsAuthenticated() {
     // eslint-disable-next-line no-underscore-dangle

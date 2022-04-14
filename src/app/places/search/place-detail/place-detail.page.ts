@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { ActionSheetController, LoadingController, ModalController, NavController } from '@ionic/angular';
+import { ActionSheetController, AlertController, LoadingController, ModalController, NavController } from '@ionic/angular';
 import { Place } from '../../place.model';
 import { PlacesService } from '../../places.service';
 import { CreateBookingComponent } from '../../../bookings/create-booking/create-booking.component';
@@ -18,6 +18,7 @@ import { AuthService } from '../../../auth/auth.service';
 export class PlaceDetailPage implements OnInit, OnDestroy {
   place: Place;
   isBookable = false;
+  isLoading = false;
   private placeSub: Subscription;
 
   constructor(
@@ -28,7 +29,9 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
     private actionSheetCtrl: ActionSheetController,
     private bookingService: BookingService,
     private loadingCtrl: LoadingController,
-    private authService: AuthService
+    private authService: AuthService,
+    private alertCtrl: AlertController,
+    private router: Router
     ) { }
 
   ngOnInit() {
@@ -37,9 +40,23 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
         this.navCtrl.navigateBack('/places/tabs/search');
         return;
       }
-       this.placeSub = this.placesService.getPlace(paramMap.get('placeId')).subscribe(place => {
+       this.isLoading = true;
+       this.placeSub = this.placesService
+       .getPlace(paramMap.get('placeId'))
+       .subscribe(place => {
         this.place = place;
         this.isBookable = place.userId !== this.authService.userId;
+        this.isLoading = false;
+      }, error => {
+        this.alertCtrl.create({
+          header: 'An error ocurred!',
+          message: 'Could not load place.',
+          buttons: [{text: 'Okay', handler: () => {
+           this.router.navigate(['/places/tabs/search']);
+          }
+        }
+      ]
+    }).then(alertEl => alertEl.present);
       });
     });
   }
@@ -92,7 +109,8 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
         .then(loadingEl => {
           loadingEl.present();
           const data = resultData.data.bookingData;
-          this.bookingService.addBooking(
+          this.bookingService
+          .addBooking(
             this.place.id,
             this.place.title,
             this.place.imageUrl,
@@ -101,7 +119,8 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
             data.guestNumber,
             data.startDate,
             data.endDate
-          ).subscribe(() => {
+          )
+          .subscribe(() => {
             loadingEl.dismiss();
           });
         });
