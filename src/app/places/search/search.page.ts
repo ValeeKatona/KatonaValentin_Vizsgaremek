@@ -43,7 +43,7 @@ export class SearchPage implements OnInit, OnDestroy {
     this.menuCtrl.toggle;
   }
 
-  onFilterUpdate(event: CustomEvent<SegmentChangeEventDetail>) {
+  onFilterUpdate(event, detail?: CustomEvent<SegmentChangeEventDetail>) {
     if (event.detail.value === 'all') {
       this.relevantPlaces = this.loadedPlaces;
       this.listedLoadedPlaces = this.relevantPlaces.slice(1);
