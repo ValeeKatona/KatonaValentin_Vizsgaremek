@@ -4,17 +4,26 @@ import {
   AfterViewInit,
   ViewChild,
   ElementRef,
-  Renderer2
+  Renderer2,
+  OnDestroy,
+  Input
 } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-map-modal',
   templateUrl: './map-modal.component.html',
   styleUrls: ['./map-modal.component.scss']
 })
-export class MapModalComponent implements OnInit, AfterViewInit {
+export class MapModalComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('map') mapElementRef: ElementRef;
+  @Input() center = { lat: 47.50193691609595, lng: 19.056905003894393 };
+  @Input() selectable = true;
+  @Input() closeButtonText = 'Cancel';
+  @Input() title = 'Pick Location';
+  clickListener: any;
+  googleMaps: any;
 
   constructor(
     private modalCtrl: ModalController,
@@ -26,23 +35,33 @@ export class MapModalComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.getGoogleMaps()
       .then(googleMaps => {
+        this.googleMaps = googleMaps;
         const mapEl = this.mapElementRef.nativeElement;
         const map = new googleMaps.Map(mapEl, {
-          center: { lat: 47.50193691609595, lng: 19.056905003894393 },
+          center: this.center,
           zoom: 18
         });
 
-        googleMaps.event.addListenerOnce(map, 'idle', () => {
+        this.googleMaps.event.addListenerOnce(map, 'idle', () => {
           this.renderer.addClass(mapEl, 'visible');
         });
 
-        map.addListener('click', event => {
-          const selectedCoords = {
-            lat: event.latLng.lat(),
-            lng: event.latLng.lng()
-          };
-          this.modalCtrl.dismiss(selectedCoords);
-        });
+        if(this.selectable) {
+          this.clickListener = map.addListener('click', event => {
+            const selectedCoords = {
+              lat: event.latLng.lat(),
+              lng: event.latLng.lng()
+            };
+            this.modalCtrl.dismiss(selectedCoords);
+          });
+        } else {
+          const marker = new googleMaps.Marker({
+            postion: this.center,
+            map: map,
+            title: 'Picked Location'
+          });
+          marker.setMap(map);
+        }
       })
       .catch(err => {
         console.log(err);
@@ -51,6 +70,12 @@ export class MapModalComponent implements OnInit, AfterViewInit {
 
   onCancel() {
     this.modalCtrl.dismiss();
+  }
+
+  ngOnDestroy() {
+    if (this.clickListener) {
+      this.googleMaps.event.removeListener(this.clickListener);
+    }
   }
 
   private getGoogleMaps(): Promise<any> {
@@ -62,7 +87,7 @@ export class MapModalComponent implements OnInit, AfterViewInit {
     return new Promise((resolve, reject) => {
       const script = document.createElement('script');
       script.src =
-        'https://maps.googleapis.com/maps/api/js?key=AIzaSyBwyUECkbyFYmB9PM2Rf5fu4AuU0Zmgse4';
+        'https://maps.googleapis.com/maps/api/js?key=' + environment.googleMapsAPIKey;
       script.async = true;
       script.defer = true;
       document.body.appendChild(script);

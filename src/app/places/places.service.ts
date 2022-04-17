@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { take, map, tap, delay, switchMap } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
+import { PlaceLocation } from './location.model';
 import { Place } from './place.model';
 
 interface PlaceData {
@@ -13,6 +14,7 @@ interface PlaceData {
   price: number;
   title: string;
   userId: string;
+  location: PlaceLocation;
 }
 
 @Injectable({
@@ -49,7 +51,8 @@ export class PlacesService {
               resData[key].price,
               new Date(resData[key].availableFrom),
               new Date(resData[key].availableTo),
-              resData[key].userId
+              resData[key].userId,
+              resData[key].location
             )
           );
         }
@@ -64,13 +67,25 @@ export class PlacesService {
   );
 }
   getPlace(id: string) {
-    return this.places.pipe(
-      take(1),
-      // eslint-disable-next-line arrow-body-style
-      map(places => {
-      return { ...places.find(p => p.id === id )};
-      })
-    );
+    return this.http
+      .get<PlaceData>(
+        `https://accomondationapp-default-rtdb.europe-west1.firebasedatabase.app/offered-places/${id}.json`
+      )
+      .pipe(
+        map(placeData => {
+          return new Place(
+            id,
+            placeData.title,
+            placeData.description,
+            placeData.imageUrl,
+            placeData.price,
+            new Date(placeData.availableFrom),
+            new Date(placeData.availableTo),
+            placeData.userId,
+            placeData.location
+          );
+        })
+      );
   }
 
   addPlace(
@@ -78,7 +93,8 @@ export class PlacesService {
     description: string,
     price: number,
     dateFrom: Date,
-    dateTo: Date
+    dateTo: Date,
+    location: PlaceLocation
     ) {
       let generatedId: string;
     const newPlace = new Place(
@@ -89,13 +105,17 @@ export class PlacesService {
     price,
     dateFrom,
     dateTo,
-    this.authService.userId
+    this.authService.userId,
+    location
     );
     return this.http
-    .post<{name: string}>('https://accomondationapp-default-rtdb.europe-west1.firebasedatabase.app/offered-places.json', {
+    .post<{name: string}>(
+      'https://accomondationapp-default-rtdb.europe-west1.firebasedatabase.app/offered-places.json',
+      {
       ...newPlace,
       id: null
-    })
+      }
+    )
     .pipe(
       switchMap(resData => {
         generatedId = resData.name;
@@ -141,7 +161,8 @@ export class PlacesService {
           oldPlace.price,
           oldPlace.availableFrom,
           oldPlace.availableTo,
-          oldPlace.userId
+          oldPlace.userId,
+          oldPlace.location
           );
           return this.http.put(
             `https://accomondationapp-default-rtdb.europe-west1.firebasedatabase.app/offered-places/${placeId}.json`,
