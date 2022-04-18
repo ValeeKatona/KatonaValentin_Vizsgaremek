@@ -34,21 +34,21 @@
   <summary>Contents/Tartalomjegyzék (click)</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About The Project/A projektről</a>
+      <a href="#about-the-projecta-projektről">About The Project/A projektről</a>
       <ul>
-        <li><a href="#built-with">Built With/Hogyan készült</a></li>
+        <li><a href="#built-withhogyan-készült">Built With/Hogyan készült</a></li>
       </ul>
     </li>
     <li>
-      <a href="#getting-started">Getting Started/Első lépések</a>
+      <a href="#getting-startedelső-lépések">Getting Started/Első lépések</a>
       <ul>
-        <li><a href="#installation">Installation/Installáció</a></li>
-        <li><a href="#installation">Start/Indítás</a></li>
+        <li><a href="#installationinstalláció">Installation/Installáció</a></li>
+        <li><a href="#installationinstalláció">Start/Indítás</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#usagehasználat">Usage/Használat</a></li>
+    <li><a href="#roadmaptervezet">Roadmap/Tervezet</a></li>
+    <li><a href="#contactkapcsolat">Contact/Kapcsolat</a></li>
   </ol>
 </details>
 
@@ -59,6 +59,8 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 <br>
+HUN:
+<br>
 <br>
 Elsősorban olyan applikáción dolgoztunk, ami napjaink legnagyobb problémáira próbál/segít megoldást találni.<br>
 Ezek között kettő nagy problémát karoltunk át. 
@@ -66,12 +68,14 @@ Ezek között kettő nagy problémát karoltunk át.
 <br>
 Ezek pedig:
 * Az egyik a pandémiára és problémáira épült. Melynek neve PandemiApp, amely itt található.
-* Ez a projekt pedig a menekültekre és a háborúra. Melynek neve Shelterly, amelyet jelenleg is olvas.
+* Ez a VIZSGA projekt pedig a menekültekre és a háborúra. Melynek neve Shelterly, amelyet jelenleg is olvas.
 <br>
 Mind a kettő, mondhatni napjaink legnagyobb kihívásai, ezért szívügyünk volt megpróbálni megoldást találni, vagy legalább segíteni a helyzeten.
 <br>
 <br>
---------------------------------------------------------------------------------------------------------------------------------------------
+<br>
+ENG:
+<br>
 <br>
 First of all, we were aiming to do such a project, that tries to give us all solutions for today's biggest problems.<br>
 We leaned towards the severe issues of nowadays.
