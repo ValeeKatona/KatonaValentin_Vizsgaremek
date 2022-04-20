@@ -7,7 +7,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="">
+  <a href="https://shelterly.online/">
     <img src="https://shelterly.online/assets/images/logo/logo.png" alt="Logo" width="180" height="50">
   </a>
 
