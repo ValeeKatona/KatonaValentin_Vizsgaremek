@@ -8,7 +8,7 @@
 <br />
 <div align="center">
   <a href="">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="https://shelterly.online/assets/images/logo/logo.png" alt="Logo" width="180" height="50">
   </a>
 
   <h3 align="center">Shelterly Description/leírás</h3>
@@ -19,7 +19,7 @@
     <a href="https://shelterly.online/description"><strong>User's Guide/Kezelési útmutató »</strong></a>
     <br />
     <br />
-    <a href="">View Demo/Demó megtekintése</a>
+    <a href="https://921y8q1vvp.appflowapp.com/places/tabs/search">View Demo/Demó megtekintése</a>
     ·
     <a href="http://valentinkatona.com/#section-contact">Report Bug/Hiba bejelentése</a>
     ·
@@ -57,7 +57,6 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project/A projektről
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
 <br>
 HUN:
 <br>
@@ -66,9 +65,12 @@ Elsősorban olyan applikáción dolgoztunk, ami napjaink legnagyobb problémáir
 Ezek között kettő nagy problémát karoltunk át. 
 <br>
 <br>
+<br>
 Ezek pedig:
-* Az egyik a pandémiára és problémáira épült. Melynek neve PandemiApp, amely itt található.
+<br>
+* Az egyik a pandémiára és problémáira épült. Melynek neve PandemiApp, amely itt található.<br>
 * Ez a VIZSGA projekt pedig a menekültekre és a háborúra. Melynek neve Shelterly, amelyet jelenleg is olvas.
+<br>
 <br>
 Mind a kettő, mondhatni napjaink legnagyobb kihívásai, ezért szívügyünk volt megpróbálni megoldást találni, vagy legalább segíteni a helyzeten.
 <br>
@@ -81,9 +83,9 @@ First of all, we were aiming to do such a project, that tries to give us all sol
 We leaned towards the severe issues of nowadays.
 <br>
 <br>
-These would be the followings:<br><br>
+These would be the followings:<br>
 * One reflects on the pandemic, which began in the end of 2019. It's name is PandemiApp, and you can find more about it here.<br>
-* The other one reflects on the refugees and the war that's happening in Ukraine. It's name is Sherterly, which you are reading now.
+* The other one reflects on the refugees and the war that's happening in Ukraine. It's name is Sherterly, which you are reading now.(this is the VIZSGAREMEK)
 <br><br>
 Both of them are the most serious challenges of today, that's why we proceeded to find a solution that can help everyone in this situation.
 
@@ -98,9 +100,9 @@ Az alábbi listában találhatók meg a programnyelvek és technikák amiket has
 Here you can find the list about the programming languages and techs that were used.
 
 * [Angular](https://angular.io/)
-* [IonicFramework](https://ionicframework.com/)
+* [Ionic Framework](https://ionicframework.com/)
 * [SASS](https://sass-lang.com/)
-* [TYPESCRIPT](https://www.typescriptlang.org/)
+* [Typescript](https://www.typescriptlang.org/)
 * [HTML](https://html.com/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
