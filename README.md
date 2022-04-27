@@ -139,10 +139,11 @@ You'll need "git" to copy the rep that's stored in git.
    ```sh
    npm install
    ```
-5. Beírjuk a következő parancsot:
+5. A letöltés befejezése után, beírjuk a következő parancsot:
    ```sh
    ionic serve
    ```
+6. Ezután az alkamazás automatikusan elindul, ha mégsem, akkor a böngésző címsorába írjuk be a következő címet: http://localhost:8100/ .
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
