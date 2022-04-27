@@ -95,9 +95,9 @@ Both of them are the most serious challenges of today, that's why we proceeded t
 
 ### Built With/Hogyan készült
 
-Az alábbi listában találhatók meg a programnyelvek és technikák amiket használtunk.
+Az alábbi listában találhatók meg a programnyelvek és technológiák amiket használtunk.
 <br>
-Here you can find the list about the programming languages and techs that were used.
+Here you can find the list about the programming languages and technologies that were used.
 
 * [Angular](https://angular.io/)
 * [Ionic Framework](https://ionicframework.com/)
