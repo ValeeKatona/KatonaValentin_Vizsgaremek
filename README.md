@@ -134,7 +134,7 @@ You'll need "git" to copy the rep that's stored in git.
    ```sh
    git clone https://github.com/djvalee/KatonaValentin_es_KorcsmarosKende.git
    ```
-3. Navigáljunk a lemásolt repó mappájába.
+3. Navigáljunk a lemásolt repó mappájába. (cd KatonaValentin_es_KorcsmarosKende -> cd MobileApp)
 4. Installáljuk az NPM csomagokat.
    ```sh
    npm install
