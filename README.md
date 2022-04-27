@@ -68,7 +68,7 @@ Ezek között kettő nagy problémát karoltunk át.
 <br>
 Ezek pedig:
 <br>
-* Az egyik a pandémiára és problémáira épült. Melynek neve PandemiApp, amely itt található.<br>
+* Az egyik a pandémiára és problémáira épült. Melynek neve PandemiApp, amely itt:(https://github.com/djvalee/PandemiApp) található.<br>
 * Ez a VIZSGA projekt pedig a menekültekre és a háborúra. Melynek neve Shelterly, amelyet jelenleg is olvas.
 <br>
 <br>
@@ -84,7 +84,7 @@ We leaned towards the severe issues of nowadays.
 <br>
 <br>
 These would be the followings:<br>
-* One reflects on the pandemic, which began in the end of 2019. It's name is PandemiApp, and you can find more about it here.<br>
+* One reflects on the pandemic, which began in the end of 2019. It's name is PandemiApp, and you can find more about it here:(https://github.com/djvalee/PandemiApp).<br><br>
 * The other one reflects on the refugees and the war that's happening in Ukraine. It's name is Sherterly, which you are reading now.(this is the VIZSGAREMEK)
 <br><br>
 Both of them are the most serious challenges of today, that's why we proceeded to find a solution that can help everyone in this situation.
@@ -117,9 +117,13 @@ To run this project you'll need NodeJS and will have to use the npm download pac
 
 * npm
   ```sh
+  https://nodejs.org/en/
+  ```
+  
+  ```sh
   npm install npm@latest -g
   ```
-Szükségünk lesz gitre, hogy lemásoljuk a giten tárolt repót.<br>
+Szükségünk lesz gitre, hogy lemásoljuk a giten tárolt repót. Vagy letöltjük a .zip fájlt.<br>
 You'll need "git" to copy the rep that's stored in git. 
 * git
   ```sh
@@ -139,11 +143,15 @@ You'll need "git" to copy the rep that's stored in git.
    ```sh
    npm install
    ```
-5. A letöltés befejezése után, beírjuk a következő parancsot:
+5. Installáljuk az Ionic CLI-t a következő képpen. Ügyeljünk rá, hogy Mac vagy Linux esetén a parancsok elé beírjuk a "sudo"-t.
+   ```sh
+   npm install -g @ionic/cli
+   ```
+6. A letöltés befejezése után, beírjuk a következő parancsot:
    ```sh
    ionic serve
    ```
-6. Ezután az alkamazás automatikusan elindul, ha mégsem, akkor a böngésző címsorába írjuk be a következő címet: http://localhost:8100/ .
+7. Ezután az alkamazás automatikusan elindul, ha mégsem, akkor a böngésző címsorába írjuk be a következő címet: http://localhost:8100/ .
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
